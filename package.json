@@ -1,0 +1,44 @@
+{
+  "name": "superglue",
+  "version": "0.0.0",
+  "description": "A sticky mediator to glue together a decoupled app",
+  "keywords": [
+    "superglue",
+    "glue",
+    "mediator",
+    "pubsub",
+    "events",
+    "design patterns",
+    "express",
+    "connect"
+  ],
+  "author": {
+    "name": "David Chubbs",
+    "url": "https://github.com/davidchubbs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/davidchubbs/superglue.git"
+  },
+  "bugs": {
+    "url": "https://github.com/davidchubbs/superglue/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "main": "./lib",
+  "scripts": {
+    "test": "mocha && jshint lib/"
+  },
+  "devDependencies": {
+    "jshint": "^2.5.2",
+    "mocha": "^1.20.1",
+    "should": "^4.0.4"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  }
+}
