@@ -3,7 +3,7 @@ var events = require("../lib/storage/index");
 var Listener = events.Listener;
 var GroupListener = events.GroupListener;
 
-describe("storage/index", function () {
+describe("lib/storage/index", function () {
 
   it("should expose certain properties", function () {
     events.should.have.properties("match", "Listener", "GroupListener");
