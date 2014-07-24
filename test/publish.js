@@ -102,11 +102,11 @@ describe("Publish", function () {
         oneOfEach,
         twoEvents;
 
-    oneOfEach = new Publish(cxt, eventName + ":simple")
+    oneOfEach = new Publish([cxt, eventName + ":simple"])
     oneOfEach._cxt.should.equal(cxt);
     oneOfEach._cxt.counter.should.equal(1);
 
-    twoEvents = new Publish(cxt, eventName + ":simple", eventName + ":simple");
+    twoEvents = new Publish([cxt, eventName + ":simple", eventName + ":simple"]);
     twoEvents._cxt.should.equal(cxt);
     twoEvents._cxt.counter.should.equal(3);
   });
