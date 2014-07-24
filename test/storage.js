@@ -21,22 +21,22 @@ describe("lib/storage/index", function () {
         new GroupListener().should.have.property("isSaved").and.be.Function;
       });
 
-      it("should determine whether .id is set", function () {
+      it("should determine whether ._id is set", function () {
         var l = new Listener();
         var g = new GroupListener();
 
         // if id isn't set, it should be false
         
-        (l.id === null).should.be.true;
-        (g.id === null).should.be.true;
+        (l._id === null).should.be.true;
+        (g._id === null).should.be.true;
         
         l.isSaved().should.be.false;
         g.isSaved().should.be.false;
 
         // once id is set, it should be true
 
-        l.id = 1;
-        g.id = 1;
+        l._id = 1;
+        g._id = 1;
 
         l.isSaved().should.be.true;
         g.isSaved().should.be.true;
@@ -82,7 +82,7 @@ describe("lib/storage/index", function () {
     it("should have expected properties", function () {
       var l = new Listener();
       l.should.have.properties({
-        id           : null,
+        _id           : null,
         eventNames   : [],
         logic        : [],
         predicates   : [],
@@ -152,20 +152,20 @@ describe("lib/storage/index", function () {
         var l = new Listener(),
             startLen = events._listeners().length;
 
-        (l.addEventName("name").id === null).should.be.true;
-        (l.addPredicate(function () {}).id === null).should.be.true;
-        (l.addDependency(function () {}).id === null).should.be.true;
+        (l.addEventName("name")._id === null).should.be.true;
+        (l.addPredicate(function () {})._id === null).should.be.true;
+        (l.addDependency(function () {})._id === null).should.be.true;
         // id should now be set
-        (l.addLogic(function () {}).id === null).should.be.false;
+        (l.addLogic(function () {})._id === null).should.be.false;
         // events should now have 1 more listener registered
         (startLen < events._listeners().length).should.be.true;
         // id should be set correctly
-        l.id.should.equal(startLen);
+        l._id.should.equal(startLen);
         // make sure it updates afterwards
         l.eventNames.should.have.length(1);
         l.addEventName("name2");
         l.eventNames.should.have.length(2);
-        events._listeners()[l.id].eventNames.should.have.length(2);
+        events._listeners()[l._id].eventNames.should.have.length(2);
 
         // make sure the entire object is the same
         l = new Listener()
@@ -173,8 +173,8 @@ describe("lib/storage/index", function () {
               .addLogic(function () {})
               .addPredicate(function () {})
               .addDependency(function () {});
-        events._listeners()[l.id].should.have.properties({
-          id           : l.id,
+        events._listeners()[l._id].should.have.properties({
+          _id           : l._id,
           eventNames   : l.eventNames,
           logic        : l.logic,
           predicates   : l.predicates,
@@ -190,7 +190,7 @@ describe("lib/storage/index", function () {
     it("should have expected properties", function () {
       var g = new GroupListener();
       g.should.have.properties({
-        id           : null,
+        _id           : null,
         eventNames   : [],
         fire         : []
       });
@@ -217,25 +217,25 @@ describe("lib/storage/index", function () {
         var g = new GroupListener(),
             startLen = events._groups().length;
 
-        (g.addEventName("name").id === null).should.be.true;
+        (g.addEventName("name")._id === null).should.be.true;
         // id should now be set
-        (g.addFire("event-name").id === null).should.be.false;
+        (g.addFire("event-name")._id === null).should.be.false;
         // events should now have 1 more listener registered
         (startLen < events._groups().length).should.be.true;
         // id should be set correctly
-        g.id.should.equal(startLen);
+        g._id.should.equal(startLen);
         // make sure it updates afterwards
         g.eventNames.should.have.length(1);
         g.addEventName("name2");
         g.eventNames.should.have.length(2);
-        events._groups()[g.id].eventNames.should.have.length(2);
+        events._groups()[g._id].eventNames.should.have.length(2);
 
         // make sure the entire object is the same
         c = new GroupListener()
               .addEventName("c:name")
               .addFire("c:fire");
-        events._groups()[c.id].should.have.properties({
-          id           : c.id,
+        events._groups()[c._id].should.have.properties({
+          _id           : c._id,
           eventNames   : c.eventNames,
           fire         : c.fire
         });
