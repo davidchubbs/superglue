@@ -3,10 +3,10 @@ var Subscribe = require("../lib/subscribe");
 
 describe("Subscribe", function () {
 
-  var s         = new Subscribe(eventName);
   var Listener  = require("../lib/storage").Listener;
   var eventName = "default-event-name";
   var fn        = function () {};
+  var s         = new Subscribe(eventName);
 
   it("should be a constructor", function () {
     Subscribe.should.be.a.Function;
@@ -14,6 +14,10 @@ describe("Subscribe", function () {
 
   it("should have a property ._sub with instance of Listener", function () {
     s.should.have.property("_sub").instanceof(Listener);
+  });
+
+  it("should register the event name to listen for as a constructor argument", function () {
+    s._sub.eventNames[0].should.equal(eventName);
   });
 
   describe(".then()", function () {
