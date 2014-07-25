@@ -31,8 +31,8 @@
   ],
   "main": "./lib",
   "scripts": {
-    "test": "mocha && jshint lib/",
-    "dev" : "npm test && wr --chime 0 'npm test' lib test"
+    "test": "mocha",
+    "dev" : "npm test && jshint lib/ && wr --chime 0 'npm test && jshint lib/' lib test"
   },
   "devDependencies": {
     "jshint": "~2.5",
