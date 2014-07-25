@@ -28,6 +28,8 @@ superglue.publish("event-name");
 superglue.publish().event("event-name");
 ```
 
+##### Publishers can provide subscribers context
+
 To give context to your subscribers:
 
 ```js
@@ -42,6 +44,20 @@ superglue.publish()
   .context({first: "Julie", last: "Chubbs"})
   .event("event-name");
 ```
+
+If your subscribers depend on elements of the context to exist, you can say so:
+
+```js
+superglue.subscriber("event-name")
+  .require(function () {
+    return "first" in this && "last" in this;
+  })
+  .then(...);
+```
+
+##### Errors can be used to halt event-execution
+
+If the `.require`'s function returns false, a `ContextError` is thrown.
 
 
 Feedback
