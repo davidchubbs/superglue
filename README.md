@@ -12,12 +12,18 @@ No dependencies.
 Quick Start
 -----------
 
-To subscribe logic to an event-name:
+Subscribe logic to an event-name:
 
 ```js
 superglue.subscribe("event-name").then(function () {
   // do something
 });
+```
+
+Now you can trigger the event using:
+
+```js
+superglue.publish("event-name");
 ```
 
 
