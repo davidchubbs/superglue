@@ -6,7 +6,12 @@ Superglue
 No dependencies.
 
 
-**Superglue is inspired by a few different design patterns and attempts to consolidate some of their benefits.** Read the examples to learn more...
+**Superglue is inspired by a few different design patterns and attempts to consolidate some of their benefits.** The benefits include:
+
+1. Publishers can provide subscribers with context
+1. Subscribers can define what context elements they depend on
+1. Both publishers and subscribers can return errors to halt event-execution
+1. **Finish**
 
 
 Quick Start
@@ -26,9 +31,6 @@ Now you can trigger the event using:
 superglue.publish("event-name");
 // or
 superglue.publish().event("event-name");
-```
-
-##### Publishers can provide subscribers context
 
 To give context to your subscribers:
 
@@ -55,9 +57,7 @@ superglue.subscriber("event-name")
   .then(...);
 ```
 
-##### Errors can be used to halt event-execution
-
-If the `.require`'s function returns false, a `ContextError` is thrown.
+If the `.require`'s function returns false, a `ContextError` is thrown. **Finish**
 
 
 Feedback
