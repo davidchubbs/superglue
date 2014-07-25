@@ -35,12 +35,12 @@
     "dev" : "npm test && wr --chime 0 'npm test' lib test"
   },
   "devDependencies": {
-    "jshint": "^2.5.2",
-    "mocha": "^1.21.0",
-    "should": "^4.0.4",
-    "wr": "^1.3.1"
+    "jshint": "~2.5",
+    "mocha": "~1.21",
+    "should": "~4.0",
+    "wr": "~1.3"
   },
   "engines": {
-    "node": ">= 0.6.0"
+    "node": ">=0.6.0"
   }
 }
