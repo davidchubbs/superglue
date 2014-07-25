@@ -31,6 +31,7 @@ Now you can trigger the event using:
 superglue.publish("event-name");
 // or
 superglue.publish().event("event-name");
+```
 
 To give context to your subscribers:
 
