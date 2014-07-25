@@ -24,6 +24,23 @@ Now you can trigger the event using:
 
 ```js
 superglue.publish("event-name");
+// or
+superglue.publish().event("event-name");
+```
+
+To give context to your subscribers:
+
+```js
+superglue.subscriber("event-name").then(function () {
+  // context is bound to `this`
+  this.name = this.first + " " + this.last;
+});
+
+superglue.publish({first: "Julie", last: "Chubbs"}, "event-name");
+// or
+superglue.publish()
+  .context({first: "Julie", last: "Chubbs"})
+  .event("event-name");
 ```
 
 
