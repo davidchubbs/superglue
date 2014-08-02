@@ -1,7 +1,7 @@
-var should    = require("should");
-var Publish   = require("../lib/publish");
-var subscribe = require("../lib").subscribe;
-var ContextError = require("../lib/errors/context-error");
+var should       = require("should"),
+    Publish      = require("../lib/Publish"),
+    subscribe    = require("../lib").subscribe,
+    ContextError = require("../lib/errors/ContextError");
 
 describe("Publish", function () {
 

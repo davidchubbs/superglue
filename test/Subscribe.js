@@ -1,12 +1,13 @@
-var should    = require("should");
-var Subscribe = require("../lib/subscribe");
+var should    = require("should"),
+    Subscribe = require("../lib/Subscribe");
 
 describe("Subscribe", function () {
 
-  var Listener  = require("../lib/storage").Listener;
-  var eventName = "default-event-name";
-  var fn        = function () {};
-  var s         = new Subscribe(eventName);
+  var storage   = require("../lib/storage"),
+      Listener  = storage.Listener,
+      eventName = "default-event-name",
+      fn        = function () {},
+      s         = new Subscribe(eventName);
 
   it("should be a constructor", function () {
     Subscribe.should.be.a.Function;
@@ -18,6 +19,22 @@ describe("Subscribe", function () {
 
   it("should register the event name to listen for as a constructor argument", function () {
     s._sub.eventNames[0].should.equal(eventName);
+  });
+
+  describe(".replace", function () {
+    it("should flush all pre-existing listeners & groups with the same event-names", function () {
+      var flushName = "flush:subscribe:test",
+          test;
+
+      new Subscribe(flushName).then(fn);
+      new Subscribe(flushName).then(fn);
+
+      storage.match(flushName).should.have.length(2);
+      test = new Subscribe(flushName).replace;
+      storage.match(flushName).should.have.length(0);
+      test.then(fn);
+      storage.match(flushName).should.have.length(1);
+    });
   });
 
   describe(".then()", function () {

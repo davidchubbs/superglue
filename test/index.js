@@ -1,8 +1,8 @@
-var should    = require("should");
-var index     = require("../lib");
-var Publish   = require("../lib/publish");
-var Subscribe = require("../lib/subscribe");
-var Group     = require("../lib/group");
+var should    = require("should"),
+    index     = require("../lib"),
+    Publish   = require("../lib/Publish"),
+    Subscribe = require("../lib/Subscribe"),
+    Group     = require("../lib/Group");
 
 describe("lib/index", function () {
   describe(".errors", function () {

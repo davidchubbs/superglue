@@ -1,7 +1,7 @@
-var should = require("should");
-var events = require("../lib/storage/index");
-var Listener = events.Listener;
-var GroupListener = events.GroupListener;
+var should        = require("should"),
+    events        = require("../lib/storage/index"),
+    Listener      = events.Listener,
+    GroupListener = events.GroupListener;
 
 describe("lib/storage/index", function () {
 
@@ -294,6 +294,64 @@ describe("lib/storage/index", function () {
 
     it("when groups & subscribers are both returned, subscribers should come first (specificity wins)", function () {
       events.match("match:group")[0].eventNames.should.containDeep(["match:group"]);
+    });
+
+  });
+
+  describe(".flush", function () {
+
+    var name = "flush:name";
+
+    it("should exist and be a function", function () {
+      events.flush.should.be.a.Function;
+    });
+
+    it("should remove listeners & groups that have the same event name", function () {
+      new events.Listener()
+        .addEventName(name)
+        .addLogic(function () {});
+
+      new events.Listener()
+        .addEventName(name)
+        .addLogic(function () {});
+
+      new events.Listener()
+        .addEventName(name + ":1")
+        .addLogic(function () {});
+
+      new events.Listener()
+        .addEventName(name + ":2")
+        .addLogic(function () {});
+
+      new events.GroupListener()
+        .addEventName(name)
+        .addFire(name + ":1")
+        .addFire(name + ":2");
+
+      // should return both "flush:name" listeners + "flush:name:1" & "2" listeners
+      events.match(name).should.have.length(4);
+      events.flush(name);
+      events.match(name).should.have.length(0);
+      // make sure that only the group name was deleting, not "flush:name:1" & "2"
+      events.match(name + ":1").should.have.length(1);
+      events.match(name + ":2").should.have.length(1);
+    });
+
+    it("should only remove the matching event-name if there is more than 1 name", function () {
+      new events.Listener()
+        .addEventName(name)
+        .addEventName(name + ":another")
+        .addLogic(function () {});
+
+      new events.GroupListener()
+        .addEventName(name)
+        .addEventName(name + ":another")
+        .addFire(name + ":1");
+
+      events.match(name).should.have.length(2);
+      events.flush(name);
+      events.match(name).should.have.length(0);
+      events.match(name + ":another").should.have.length(2);
     });
 
   });

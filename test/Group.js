@@ -1,11 +1,13 @@
-var should    = require("should");
-var GroupSubscribe = require("../lib/group");
+var should         = require("should"),
+    GroupSubscribe = require("../lib/Group"),
+    Subscribe      = require("../lib/Subscribe");
 
 describe("GroupSubscribe", function () {
 
-  var GroupListener  = require("../lib/storage").GroupListener;
-  var eventName      = "default-group-name";
-  var g              = new GroupSubscribe(eventName);
+  var storage        = require("../lib/storage"),
+      GroupListener  = storage.GroupListener,
+      eventName      = "default-group-name",
+      g              = new GroupSubscribe(eventName);
 
   it("should be a constructor", function () {
     GroupSubscribe.should.be.a.Function;
@@ -18,6 +20,23 @@ describe("GroupSubscribe", function () {
   it("should register the event name to listen for as a constructor argument", function () {
     g._group.eventNames[0].should.equal(eventName);
   });
+
+  describe(".replace", function () {
+    it("should flush all pre-existing listeners & groups with the same event-names", function () {
+      var flushName = "flush:group:test",
+          test;
+
+      new Subscribe(flushName + ":1").then(function () {});
+      new GroupSubscribe(flushName).task(flushName, "1");
+
+      storage.match(flushName).should.have.length(1);
+      test = new GroupSubscribe(flushName).replace;
+      storage.match(flushName).should.have.length(0);
+      test.task(flushName, "1");
+      storage.match(flushName).should.have.length(1);
+    });
+  });
+
 
   describe(".events()", function () {
     it("should add event-name(s) to be fired", function () {
