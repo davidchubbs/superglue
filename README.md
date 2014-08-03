@@ -34,6 +34,15 @@ superglue.subscribe("task2").then(function () { /* fired 2nd */ });
 superglue.publish("task1", "task2");
 ```
 
+As usual, multiple subscribers can be listening to the same task, which are fired one at a time (due to *context*, explained shortly), in no particular order.
+
+```js
+// both subscribers listening to the same task,
+// so both will be invoked when task is triggered
+superglue.subscribe("task").then(...);
+superglue.subscribe("task").then(...);
+```
+
 Publishers can also fire their own logic at any time during the sequence of tasks.
 
 ```js
@@ -155,17 +164,59 @@ app.post("/user", function (req, res) {
 
 ### Subscriber API
 
-*Explain available methods & best practices.*
+`superglue.subscribe(task1 [, task2, ...])` creates a fresh subscriber instance listening to whatever task names passed in.
+
+`superglue.subscribe(...).replace` flushes out any susbcribers & groups with the same task names, allowing this subscriber to *replace* the existing subscribers/groups. `.replace` **must** be called immediately after `subscribe()` in order to work properly.
+
+`superglue.subscribe(...).filter(filterFn, ...)` invokes the `filterFn` and if the returned value is truthy, the subscriber's logic is also invoked.
+
+`superglue.subscribe(...).require(reqFn, ...)` invokes the `reqFn` and if the returned value is truthy, the subscriber's logic is invoked; if the returned value is falsy, a `ContextError` is generated and subsequent tasks are not triggered.
+
+`superglue.subscribe(...).then(fn, ...)` invokes the `fn`. If errors are returned, subsequent tasks are not triggered.
+
+`.filter()`, `.require()`, and `.then()` can all be given multiple functions as their arguments.
+
+Even though it is not required (except for `.replace`), it is useful to order method invocation in the same order it is processed internally, which is:
+
+```js
+superglue.subscribe("namespace:task")
+  .replace  // if needed
+  .filter(function () {})
+  .require(function () {})
+  .then(function () {})
+```
 
 
 ### Group-Subscriber API
 
-*Explain available methods & best practices.*
+`superglue.group(groupName1 [, groupName2, ...])` creates a fresh subscriber-group instance listening to whatever group-names are passed in.
+
+`superglue.group(...).replace` is identical to `.subscribe().replace`.
+
+`superglue.group(...).events(name1 [, name2, ...])` will group all event/task names passed in.
+
+`superglue.group(...).event` alias for `.events`.
+
+`superglue.group(...).tasks(namespace, tasks)` will prepend tasks with the namespace and then fire them when the group name is triggered. `tasks` can either be a string if it is a single task name, or an array of task names.
+
+`superglue.group(...).task` alias for `.tasks`.
 
 
 ### Publisher API
 
-*Explain available methods & best practices.*
+`superglue.publish([context, taskName1, ...])` creates a fresh publisher instance. If you pass in an object, it will be set as the context. If you pass in a string, it will be fired as a task name. You can pass in as many contexts and task names as you would like. However, the order is significant&mdash;if you invoke `superglue.publish("task1", {name:"Julie"}, "task2")`, only `task2` had the context with `this.name`, since the context was set after `task1` was triggered.
+
+`superglue.publish().context(cxt)` sets the `cxt` object as the context for subsequent tasks fired. The context can be fired more than once if you desire to change the context for subsequent tasks.
+
+`superglue.publish().events(task1 [, task2, ...])` fires the tasks in the order provided.
+
+`superglue.publish().event` alias for `.events`.
+
+`superglue.publish().tasks(namespace, tasks)` will prepend tasks with the namespace and then fire them. `tasks` can either be a string if it is a single task name, or an array of task names.
+
+`superglue.publish().task` alias for `.tasks`.
+
+Remember that order is important. Tasks are triggered the moment their task-name is received, which means that tasks are fired in the order they are received, and contexts are only available to tasks fired after the context is set.
 
 
 Feedback
