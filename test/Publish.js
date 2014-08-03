@@ -205,13 +205,15 @@ describe("Publish", function () {
       test._cxt.continued.should.be.false;
     });
     
-    it("should set the error & stop subscribers when error is returned", function () {
+    it("should set the error (and set .failedOn) & stop subscribers when error is returned", function () {
       test = new Publish()
               .context(new Context())
               .events(eventName + ":simple", eventName + ":error", eventName + ":simple");
 
       test._cxt.counter.should.equal(2);
       test._err.should.be.instanceOf(Error);
+      // make sure the name of the error is added to the error object as well
+      test._err.failedOn.should.equal(eventName + ":error");
     });
 
   });
