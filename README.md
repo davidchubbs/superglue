@@ -219,6 +219,12 @@ superglue.subscribe("namespace:task")
 Remember that order is important. Tasks are triggered the moment their task-name is received, which means that tasks are fired in the order they are received, and contexts are only available to tasks fired after the context is set.
 
 
+Road Map
+--------
+
+Better error handling is coming soon!
+
+
 Feedback
 --------
 
