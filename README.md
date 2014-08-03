@@ -248,7 +248,7 @@ Remember that order is important. Tasks are triggered the moment their task-name
 Road Map
 --------
 
-Better error handling is coming soon!
+Adding test coverage stats soon. Let me know what else you'd like to see!
 
 
 Feedback
