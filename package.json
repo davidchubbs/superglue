@@ -1,6 +1,6 @@
 {
   "name": "superglue",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sticky mediator that promotes loose-coupling and makes app-flow clearer.",
   "keywords": [
     "superglue",
