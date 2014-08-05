@@ -39,6 +39,7 @@ describe("lib/index", function () {
     it("should extend the prototype constructor if given one", function () {
       test.should.be.instanceof( index.errors.ContextError );
       test.should.be.instanceof( ErrClass );
+      test.should.be.instanceof( Error );
     });
 
     it("should add .type to specify it's constructor's name", function () {
