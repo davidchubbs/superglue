@@ -1,7 +1,11 @@
 Superglue
 =========
 
-[![Build](https://travis-ci.org/davidchubbs/superglue.png)](https://travis-ci.org/davidchubbs/superglue)
+[![License](https://img.shields.io/badge/license-MIT-317BF9.svg?style=flat)](https://tldrlegal.com/license/mit-license "MIT License")
+[![Build](https://img.shields.io/travis/coderaiser/minify/dev.svg?style=flat)](https://travis-ci.org/davidchubbs/superglue)
+ [![Dependency Status](https://david-dm.org/davidchubbs/superglue.svg?style=flat)](https://david-dm.org/davidchubbs/superglue)
+[![NPM version](https://img.shields.io/npm/v/superglue.svg?style=flat)](https://npmjs.org/package/superglue)
+[![NPM downloads](http://img.shields.io/npm/dm/superglue.svg?style=flat)](https://npmjs.org/package/superglue)
 
 No dependencies.
 
