@@ -5,7 +5,6 @@ Superglue
 [![Build](https://img.shields.io/travis/coderaiser/minify/dev.svg?style=flat)](https://travis-ci.org/davidchubbs/superglue)
  [![Dependency Status](https://david-dm.org/davidchubbs/superglue.svg?style=flat)](https://david-dm.org/davidchubbs/superglue)
 [![NPM version](https://img.shields.io/npm/v/superglue.svg?style=flat)](https://npmjs.org/package/superglue)
-[![NPM downloads](http://img.shields.io/npm/dm/superglue.svg?style=flat)](https://npmjs.org/package/superglue)
 
 No dependencies.
 
@@ -204,6 +203,11 @@ superglue.publish("build-name")
   });
 ```
 
+
+API
+---
+
+**This section will be fixed soon, as right now it's not very useful.**
 
 ### Subscriber API
 
