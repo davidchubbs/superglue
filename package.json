@@ -1,6 +1,6 @@
 {
   "name": "superglue",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Sticky mediator that promotes loose-coupling and makes app-flow clearer.",
   "keywords": [
     "superglue",
@@ -33,7 +33,7 @@
   "main": "./lib",
   "scripts": {
     "test": "mocha",
-    "dev" : "npm test && jshint lib/ && wr --chime 0 'npm test && jshint lib/' lib test"
+    "dev": "npm test && jshint lib/ && wr --chime 0 'npm test && jshint lib/' lib test"
   },
   "devDependencies": {
     "jshint": "~2.5",
