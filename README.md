@@ -172,36 +172,42 @@ app.post("/user", function (req, res) {
 
 ### Advanced Error Handling
 
-Superglue stores error constructors in the `superglue.errors` object. You can add your own error constructors to the `superglue.errors` object directly, or you can use the convenience method `.addError()`, which adds your error constructor to `superglue.errors`, as well as:
+Superglue stores error constructors in the `superglue.errors` object. You can add your own error constructors to the `superglue.errors` object directly, or you can use the convenience method `.addError(constructor, [name])`, which adds your error constructor to `superglue.errors`.
 
-1. Makes it easier to extend existing error constructors.
-1. Adds the following properties to the constructor's prototype:
-  1. `.type` &ndash; name of constructor
-  1. `.failedOn` &ndash; name of task that produced the error
+When an error occurs, you can check what task created the error using the error's `.failedOn` property.
 
 ```js
-// add an error constructor to superglue
-superglue.addError("NameError", function () {}, Error);                         // Error is the prototype
-superglue.addError("AnotherError", function () {}, superglue.errors.NameError); // NameError is the prototype
+// SpecialError constructor, extending Error
+function SpecialError (msg) {
+  Error.call(this, msg);
+  ...
+}
+SpecialError.prototype = Object.create(Error.prototype);
+
+// add SpecialError to superglue.errors
+superglue.addError(SpecialError);
 
 superglue.subscribe("build-name")
   .then(function () {
-    if (!this.first || !this.last)
-      return new superglue.errors.NameError("missing name");
+    var SpecialError = superglue.errors.SpecialError;
+    if (!this.first || !this.last) {
+      return new SpecialError("missing name");
+    }
   });
 
 superglue.publish("build-name")
   .then(function (err) {
 
-    // some of the standardized properties added to errors thanks to .addError()
-    if (err.type === "NameError") {
-      if (err.failedOn === "build-name") {
-        // now we have a pretty good idea about what happened...
-      }
+    // .name - if SpecialError was a "defined function"
+    // .failedOn - task name that created the error
+    if (err.name === "SpecialError" && err.failedOn === "build-name") {
+      // now we have a pretty good idea about what happened...
     }
 
   });
 ```
+
+*Please Note: If your constructor does not extend an Error (either as a parent, grandparent, or somewhere along your prototype chain), then it will be ignored when a task returns it.*
 
 
 API

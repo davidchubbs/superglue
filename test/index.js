@@ -13,41 +13,34 @@ describe("lib/index", function () {
   });
 
   describe(".addError", function () {
-    var errorName = "TestError",
-        onlyName  = "BadError",
-        protoName = "ProtoErrorTest",
-        ErrClass  = function () {},
-        test;
-
-    index.addError(errorName, ErrClass);
-    index.addError(onlyName);
-    index.addError(protoName, ErrClass, index.errors.ContextError);
-    test = new index.errors[protoName]("default message");
-
     it("should exist and be a function", function () {
       index.addError.should.be.a.Function;
     });
 
-    it("should not add to .errors if function not given", function () {
-      (typeof index.errors[onlyName] === "undefined").should.be.true;
+    it("should not add to .errors if defined function not given or if anonymous function given without a name", function () {
+      var startLen = Object.keys(index.errors).length;
+
+      index.addError("StringArg");
+      index.addError(function () {});
+
+      Object.keys(index.errors).should.have.length(startLen);
     });
 
-    it("should add the constructor to .errors", function () {
-      index.errors[errorName].should.be.a.Function;
+    it("should add the constructor to .errors if defined function", function () {
+      function DefinedName () {}
+      index.addError(DefinedName);
+      index.errors["DefinedName"].should.be.a.Function.and.equal(DefinedName);
     });
 
-    it("should extend the prototype constructor if given one", function () {
-      test.should.be.instanceof( index.errors.ContextError );
-      test.should.be.instanceof( ErrClass );
-      test.should.be.instanceof( Error );
+    it("should allow an anonymous function if given a name", function () {
+      index.addError(function () {}, "HardName");
+      index.errors["HardName"].should.be.a.Function;
     });
 
-    it("should add .type to specify it's constructor's name", function () {
-      test.type.should.be.equal(protoName);
-    });
-
-    it("should add .failedOn property, initially set to null", function () {
-      (test.failedOn === null).should.be.true;
+    it("should overwrite the name of a defined function if provided one", function () {
+      function DefinedFunc () {}
+      index.addError(DefinedFunc, "BetterName");
+      index.errors["BetterName"].should.equal(DefinedFunc);
     });
   });
 
