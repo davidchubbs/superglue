@@ -37,7 +37,7 @@ superglue.subscribe("task2").then(function () { /* fired 2nd */ });
 superglue.publish("task1", "task2");
 ```
 
-As usual, multiple subscribers can be listening to the same task, which are fired one at a time (due to *context*, explained shortly), in no particular order.
+As usual, multiple subscribers can be listening to the same task, which are fired one at a time in the order they're registered (due to *context*, explained shortly). Quick note: if they share the same task name, they can be related but should not depend on one another, so order should be irrelevant; if order is significant because they depend on one another, use a separate task name.
 
 ```js
 // both subscribers listening to the same task,
